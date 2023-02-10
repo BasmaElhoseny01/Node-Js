@@ -17,6 +17,7 @@ Note:Refer to the defintaion of NodeJs in <a href="https://www.udemy.com/course/
     - Try this now open terminal annd type node ==> to open node REPL where we write JavaScript code :) [Remeber running JS in console of the browser]
     - to Exit node REPL type .exit
 - <a href="https://nodejs.org/dist/latest-v18.x/docs/api/">Node Documentation</a>
+- Json File may be an array <a href="">check here</a>
 
 ### Course Contnent
 Part 1 Items
