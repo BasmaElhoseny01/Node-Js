@@ -12,7 +12,8 @@ Node Js Notes
   - <a href="https://github.com/BasmaElhoseny01/Node-Js/tree/main/Section%202/3.SimpleAPI">Simple API</a>
     - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/Section%202/3.SimpleAPI/0.Basic/index.js">Basic Idea</a>
     - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/Section%202/3.SimpleAPI/1.More%20Efficient/index.js">More Efficient</a>
-  - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/Section%202/2.Routing/index.js">Parsing Variables from URL</a>
+  - <a href="">Parsing Variables from URL</a>
+  - <a href="">Creating and exporting modules</a>
 
 
 ## <img align= center width=50px src="https://cdn-icons-png.flaticon.com/512/1043/1043717.png"> Notes
