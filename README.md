@@ -6,7 +6,7 @@ Node Js Notes
 ## <img align= center width=50px src="https://w7.pngwing.com/pngs/825/310/png-transparent-multicolored-streaming-template-computer-programming-web-development-computer-icons-source-code-computer-software-coding-text-computer-logo.png"> Code Agenda
 - Section (2) Introduction to Node.js and npm
   - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/Section%202/0.Basics/index.js#L3">Hello World App</a>
-  - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/7fc8d32baadb473ed42cee52a41c5c26cebb6f5d/Section%202/0.Basics/index.js#L7">File System Module</a> Reading and Writting in Files Sync/Async
+  - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/7fc8d32baadb473ed42cee52a41c5c26cebb6f5d/Section%202/0.Basics/index.js#L7">File System Module</a> Reading and Writing in Files Sync/Async
   - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/Section%202/1.SimpleWebServer/index.js">Creating Simple Web Server</a>
   - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/Section%202/2.Routing/index.js">Routing</a>
   - <a href="https://github.com/BasmaElhoseny01/Node-Js/tree/main/Section%202/3.SimpleAPI">Simple API</a>
@@ -14,6 +14,14 @@ Node Js Notes
     - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/Section%202/3.SimpleAPI/1.More%20Efficient/index.js">More Efficient</a>
   - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/Section%202/4.Parsing%20Variables%20from%20URL/index.js">Parsing Variables from URL</a>
   - <a href="https://github.com/BasmaElhoseny01/Node-Js/tree/main/Section%202/5.Creating%20Modules">Creating and exporting modules</a>
+  - <a>Third Party modules</a>
+  - <a>managing npm packages and libraries</a>
+
+//Require modules hierarchy
+// Third party modules that you downloaded from npm registry
+//1. Core modules 
+//2. Third party modules 
+//3. Your own modules
 
 
 ## <img align= center width=50px src="https://cdn-icons-png.flaticon.com/512/1043/1043717.png"> Notes
@@ -25,6 +33,8 @@ Note:Refer to the definition of NodeJs in <a href="https://www.udemy.com/course/
 - In Node every file is a module even <a href="">index.js</a> is a module importing other modules like http, url, and fs
 - Json File may be an array <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/5bd44c97a55ee2536b3724d96f0d0d0c096a872e/Section%202/3.SimpleAPI/0.Basic/data.json#L1">check here</a>
 
+### Useful Packages
+- nodemon ➼ automatically restart the node application whenever file is changed 
 ### Course Content
 Part 1 Items
 Intro

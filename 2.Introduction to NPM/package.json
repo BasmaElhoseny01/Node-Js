@@ -1,0 +1,17 @@
+{
+  "name": "2.introduction-to-npm",
+  "version": "1.0.0",
+  "description": "Managing npm packages",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Basma Elhoseny",
+  "license": "MIT",
+  "dependencies": {
+    "slugify": "^1.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}

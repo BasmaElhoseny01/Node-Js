@@ -1,0 +1,1 @@
+module.exports= func = () => console.log("Hello")
