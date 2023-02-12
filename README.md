@@ -14,15 +14,10 @@ Node Js Notes
     - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/Section%202/3.SimpleAPI/1.More%20Efficient/index.js">More Efficient</a>
   - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/Section%202/4.Parsing%20Variables%20from%20URL/index.js">Parsing Variables from URL</a>
   - <a href="https://github.com/BasmaElhoseny01/Node-Js/tree/main/Section%202/5.Creating%20Modules">Creating and exporting modules</a>
-  - <a>Third Party modules</a>
-  - <a>managing npm packages and libraries</a>
-
-//Require modules hierarchy
-// Third party modules that you downloaded from npm registry
-//1. Core modules 
-//2. Third party modules 
-//3. Your own modules
-
+  - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/2.Introduction%20to%20NPM/index.js">Third Party modules</a>
+    - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/a37f08d7fd5adadffea74d241ab925e97472fc53/2.Introduction%20to%20NPM/index.js#L2">Require modules hierarchy</a>
+  - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/2.Introduction%20to%20NPM/Managing%20npm.md">managing npm packages and libraries</a>
+  
 
 ## <img align= center width=50px src="https://cdn-icons-png.flaticon.com/512/1043/1043717.png"> Notes
 Note:Refer to the definition of NodeJs in <a href="https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/learn/lecture/15080910#overview">video 5</a> and Pros and uses 
@@ -35,6 +30,11 @@ Note:Refer to the definition of NodeJs in <a href="https://www.udemy.com/course/
 
 ### Useful Packages
 - nodemon ➼ automatically restart the node application whenever file is changed 
+
+### Useful Extenstions
+- TODO highlight
+- Prettier See config file example <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/2.Introduction%20to%20NPM/.prettierrc">here</a>
+
 ### Course Content
 Part 1 Items
 Intro
