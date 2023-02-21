@@ -1,0 +1,24 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "Node Js Notes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BasmaElhoseny01/Node-Js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BasmaElhoseny01/Node-Js/issues"
+  },
+  "homepage": "https://github.com/BasmaElhoseny01/Node-Js#readme",
+  "dependencies": {
+    "nodemon": "^2.0.20",
+    "superagent": "^8.0.9"
+  }
+}
