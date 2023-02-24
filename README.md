@@ -22,6 +22,8 @@ Node Js Notes
   - <a>Promises</a>
     - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/3.Async%20JS/1.ConsumePromise.js">Consume a Promise</a>
     - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/3.Async%20JS/2.BuildingPromise.js">Building a Promise</a>
+ - Section (6) Express:
+  - <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/main/5.Express/app.js">Handling CRUD requests</a>
 
 
 ## <img align= center width=50px src="https://cdn-icons-png.flaticon.com/512/1043/1043717.png"> Notes
