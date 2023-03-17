@@ -1,4 +1,3 @@
-//Here we Focus on Refactoring an Organizing Routes for detailed comments refer to app_unrefactored.js
 const express = require('express')
 const fs = require('fs')
 
@@ -14,13 +13,16 @@ app.use(express.json())
 //Convert to JSON using JSON.parse()
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/data/tours-simple.json`));
 
-const helloServer = (req, res) => {
+//3.Define Route
+app.get('/', (req, res) => {
     //Call Back Func [Route Handler]
     //res.status(200).send('Hello from the server Side');   //text/html; charset=utf-8 [Text Response]
     res.status(200).json({ message: 'Hello from the server Side' });   //application/json; charset=utf-8 [JSON Response]
-}
+})
 
-const getAllTours = (req, res) => {
+//4.Handling GET Requests
+// Versioning Endpoint 🔢
+app.get('/api/v1/tours', (req, res) => {
     res.status(200).json({
         status: "success",//success fail[err in the client] error[err in the server]})
         results: tours.length,
@@ -28,9 +30,12 @@ const getAllTours = (req, res) => {
             tours//tours:tours
         }
     })
-}
+})
 
-const getTour = (req, res) => {
+//6.Url Parameters
+app.get('/api/v1/tours/:id', (req, res) => {
+    //'/api/v1/tours/:id/:y?'
+    //y here is an optional parameter
     const id = req.params.id * 1 //*1 to convert string to int
     // if (id > tours.length) {
     //     return res.status(404).json({
@@ -43,7 +48,7 @@ const getTour = (req, res) => {
     if (!tour) {
         return res.status(404).json({
             status: "fail",
-            message: "Invalid ID"
+            message:"Invalid ID"
         })
     }
     res.status(200).json({
@@ -52,9 +57,10 @@ const getTour = (req, res) => {
             tour
         }
     })
-}
+})
 
-const addNewTour = (req, res) => {
+//5.Handling POST Requests
+app.post('/api/v1/tours', (req, res) => {
     //Data of new tour is in the body
     //Express Doesn't put data i the request so we need a middleware express.json() that modifies the incoming request => app.use(express.json())
     // console.log(req.body)//if we didn't add express.json() this prints undefined
@@ -74,59 +80,41 @@ const addNewTour = (req, res) => {
                 }
             })
         })
-}
+})
 
-const updateTour = (req, res) => {
-    const id = req.params.id * 1
+//7.Handling POST Requests
+// put ==> new object is passed in request body
+// patch ==> only updated attributes are sent
+app.patch('/api/v1/tours/:id',(req,res)=>{
+    const id=req.params.id*1
     if (id > tours.length) {
         return res.status(404).json({
             status: "fail",
-            message: "Invalid ID"
+            message:"Invalid ID"
         })
     }
     res.status(200).json({
-        status: "success",
-        data: {
-            tour: "<Updated Tour Object ...>"
+        status:"success",
+        data:{
+            tour:"<Updated Tour Object ...>"
         }
     })
-}
+})
 
-const deleteTour = (req, res) => {
-    const id = req.params.id * 1
+//8.Handling Delete Requests
+app.delete('/api/v1/tours/:id',(req,res)=>{
+    const id=req.params.id*1
     if (id > tours.length) {
         return res.status(404).json({
             status: "fail",
-            message: "Invalid ID"
+            message:"Invalid ID"
         })
     }
     res.status(204).json({
-        status: "success",
-        data: null
+        status:"success",
+        data:null
     })
-}
-
-// app.get('/', helloServer)
-// app.get('/api/v1/tours', getAllTours)
-// app.get('/api/v1/tours/:id',getTour)
-// app.post('/api/v1/tours', addNewTour)
-// app.patch('/api/v1/tours/:id',updateTour)
-// app.delete('/api/v1/tours/:id',deleteTour)
-
-app
-  .route('/')
-  .get(helloServer)
-
-app
-   .route('/api/v1/tours')
-   .get(getAllTours)
-   .post(addNewTour)
-
-app
-   .route('/api/v1/tours/:id')
-   .get(getTour)
-   .patch(updateTour)
-   .delete(deleteTour)
+})
 //2.Start Up A Server
 const port = 8000;
 //listen(portNo,call back function)
