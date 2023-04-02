@@ -1,13 +1,13 @@
 # MiddleWare
 
-1. Our Middle Wares <a href="">here</a>
+1. Our Middle Wares <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/8975ab8e5d8feb4a8a30e7b1b4abdcb410e2f476/6.MiddleWares/app.js#L27-L32">here</a>
 2. Refactoring Code to have
     a. routes
     b. controllers
     c. server
-3. <a href="">Param MiddleWare</a> (MiddleWare when the route contains a specific parameter )
-4. <a href="">Chaining Multiple MiddleWares</a>
-5. <a href="">Serve Static Files</a> use middleware express.static()
+3. <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/8975ab8e5d8feb4a8a30e7b1b4abdcb410e2f476/6.MiddleWares/routes/tourRoutes.js#L16-L18">Param MiddleWare</a> (MiddleWare when the route contains a specific parameter )
+4. <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/8975ab8e5d8feb4a8a30e7b1b4abdcb410e2f476/6.MiddleWares/routes/tourRoutes.js#L26">Chaining Multiple MiddleWares</a>
+5. <a href="https://github.com/BasmaElhoseny01/Node-Js/blob/8975ab8e5d8feb4a8a30e7b1b4abdcb410e2f476/6.MiddleWares/app.js#L12-L15">Serve Static Files</a> use middleware express.static()
 
 ### Setting an env variable fro the scripts in package.json
 ```
