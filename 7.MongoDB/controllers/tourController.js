@@ -1,98 +1,117 @@
 const fs = require('fs')
 
-//Reading Fake Data from File Sync[Blocking]
-//Convert to JSON using JSON.parse()
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/../data/tours-simple.json`));
+//Import Tour Model
+const Tour = require('../models/tourModel');
 
+exports.getAllTours = async (req, res) => {
+    //3.1. Reading All Documents
+    try {
+        // Syntax:() so all documents are returned
+        const tours = await Tour.find();
 
-exports.checkID = (req, res, next, val) => {
-    const id = req.params.id * 1
-    if (id > tours.length) {
-        console.log("Param MiddleWare is called Value of ID", val)
-        //Return so that the function isn't completed
-        return res.status(404).json({
+        res.status(200).json({
+            status: "success",//success fail[err in the client] error[err in the server]})
+            results: tours.length,
+            data: {
+                tours
+            }
+        })
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err
+        });
+    }
+}
+
+exports.getTour = async (req, res) => {
+    //3.2. Read Document by ID
+
+    try {
+        const tour = await Tour.findById(req.params.id);
+        res.status(200).json({
+            status: "success",//success fail[err in the client] error[err in the server]})
+            data: {
+                tour
+            }
+        })
+
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err
+        })
+    }
+}
+
+exports.createTour = async (req, res) => {
+    //2. Creating Document
+
+    try {
+        //1.a
+        // Calling save() on the new created document
+        // const newTour = new Tour ({});
+        // newTour.save().then(doc=>{
+        //doc is the newly created Document 😆
+        // }).catch(err=>{
+
+        // })
+
+        //1.b
+        //or Simply call create() on the Model it self
+        // Note : line save() create returns a promise so we can use .then but instead we  will use await 😉
+        // newTour ==> newly created document exactly lik doc as in 1.a
+        const newTour = await Tour.create(req.body);
+
+        res.status(201).json({
+            status: 'success',
+            data: {
+                tour: newTour
+            }
+        })
+    } catch (err) {
+        res.status(400).json({
             status: "fail",
-            message: "Invalid ID"
+            message: err
         })
     }
-    next();
 }
 
-exports.checkBody = (req, res, next) => {
-    const name = req.body.name
-    const price = req.body.price
-    if (!name || !price) {
-        return res.status(400).json({
-            status:"fail",
-            message:"Missing name or price",
+exports.updateTour = async (req, res) => {
+    //4. Update Document
+    try {
+        const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,// to return the new updated document
+            runValidators: true//to rerun validators on the updated document
         })
-    }
-    next();
-}
 
-exports.getAllTours = (req, res) => {
-    res.status(200).json({
-        status: "success",//success fail[err in the client] error[err in the server]})
-        results: tours.length,
-        data: {
-            tours//tours:tours
-        }
-    })
-}
-
-exports.getTour = (req, res) => {
-    const id = req.params.id * 1 //*1 to convert string to int
-    const tour = tours.find(el => el.id === id)
-    if (!tour) {
-        return res.status(404).json({
+        res.status(200).json({
+            status: "success",
+            data: {
+                tour
+            }
+        })
+    } catch (err) {
+        res.status(400).json({
             status: "fail",
-            message: "Invalid ID"
+            message: err
         })
     }
-    res.status(200).json({
-        status: "success",//success fail[err in the client] error[err in the server]})
-        data: {
-            tour
-        }
-    })
 }
 
-exports.addNewTour = (req, res) => {
-    //Data of new tour is in the body
-    //Express Doesn't put data i the request so we need a middleware express.json() that modifies the incoming request => app.use(express.json())
-    // console.log(req.body)//if we didn't add express.json() this prints undefined
-    const newId = tours[tours.length - 1].id + 1;
-    const newTour = Object.assign({ id: newId }, req.body)//Link 2 Json Objects together
-    console.log(req.body)
-
-    tours.push(newTour)
-    //Write Asynchronously 😋
-    fs.writeFile(`${__dirname}/data/tours-simple.json`,
-        JSON.stringify(tours),
-        err => {
-            res.status(201).json({
-                status: 201,
-                data: {
-                    tour: newTour
-                }
-            })
+exports.deleteTour = async (req, res) => {
+    // 5. Delete Documents
+    try {
+        await Tour.findByIdAndDelete(req.params.id)
+        res.status(204).json({
+            status: "success",
+            data: null
         })
-}
 
-exports.updateTour = (req, res) => {
-    const id = req.params.id * 1
-    res.status(200).json({
-        status: "success",
-        data: {
-            tour: "<Updated Tour Object ...>"
-        }
-    })
-}
-
-exports.deleteTour = (req, res) => {
-    const id = req.params.id * 1
-    res.status(204).json({
-        status: "success",
-        data: null
-    })
+    } catch (err) {
+        res.status(400).json({
+            status: "fail",
+            message: err
+        })
+    }
 }

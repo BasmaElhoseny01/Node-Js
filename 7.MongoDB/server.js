@@ -16,13 +16,13 @@ mongoose.connect(DB, {
   useCreateIndex: true,
   useFindAndModify: false,
 }).then(con => {
-  console.log(con.connections);
+  // console.log(con.connections);
   console.log("DB Connection successful!⭐")
 });
 
 // Configure Mongo DB
 // Start Up A Server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 //listen(portNo,call back function)
 app.listen(port, () => {
