@@ -7,7 +7,7 @@ const tourSchema = new mongoose.Schema({
     //Simply it can be name:String 
     name: {
         type: String,
-        required: [true, "A tour must have a price"],
+        required: [true, "A tour must have a name"],
         unique: true,
         trim: true
     },
