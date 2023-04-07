@@ -17,9 +17,18 @@
     b. (Exclude field from Schema so not to be shown) <a href="">here</a>
 11. Pagination
 12. Aggregation
-    - Matching
-    - Grouping
+    a. Matching
+    b. Grouping
+    c. </a href="">Unwinding</a>
+    d. <a href="">projection</a>
 
+13. Virtual Properties
+14. Mongoose MiddleWares
+    a. Document MiddleWare ➡ Act on the currently processed document
+    b. Query MiddleWare
+    c. Aggregation MiddleWare
+
+15. <a href="">Custom Validators</a>
 ### Notes 
 Query String
 {{baseURL}}/v1/tours<mark>?duration=5&difficulty=easy</mark>
@@ -30,4 +39,8 @@ Query String
 - Mongoose ➡ MongoDB Driver to make Node to access and interact with MongoDB
 ```
 npm i mongoose@5
+```
+- Validator
+```
+npm i validator
 ```
