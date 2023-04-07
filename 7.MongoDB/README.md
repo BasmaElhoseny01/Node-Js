@@ -15,6 +15,10 @@
 10. Fields Limiting
     a. <a href="">here</a>
     b. (Exclude field from Schema so not to be shown) <a href="">here</a>
+11. Pagination
+12. Aggregation
+    - Matching
+    - Grouping
 
 ### Notes 
 Query String

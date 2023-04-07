@@ -2,6 +2,8 @@ const fs = require('fs')
 
 //Import Tour Model
 const Tour = require('../models/tourModel');
+const APIFeatures = require('../utils/apiFeatures');
+
 
 exports.getAllTours = async (req, res) => {
     //3.1. Reading All Documents
@@ -10,69 +12,79 @@ exports.getAllTours = async (req, res) => {
         // const tours = await Tour.find();
 
         //Query String
-        console.log(req.query);
+        // console.log(req.query);
+
+        // // 7.Filtering
+        // //Exclude Special field names from teh query string 
+        // // const queryObj=req.query;//Shallow Copy
+        // const queryObj={...req.query};//new Object that have key-pair of the old object
+        // const excludedFields=['page','sort','limit','fields'];
+        // excludedFields.forEach(el=>delete queryObj[el]);
+
+        // // Await ==> the query is executed
+        // // const tours = await Tour.find(queryObj);
+        // // a.Build Query
+        // // const query = Tour.find(queryObj);
+        // // const tours = await Tour.find().where('duration').equals(5).where('difficulty').equals('easy');//Similar :D
 
 
-        
-        // 7.Filtering
-        //Exclude Special field names from teh query string 
-        // const queryObj=req.query;//Shallow Copy
-        const queryObj={...req.query};//new Object that have key-pair of the old object
-        const excludedFields=['page','sort','limit','fields'];
-        excludedFields.forEach(el=>delete queryObj[el]);
+        // // 8.Advanced Filtering
+        // // Request:{{baseURL}}/v1/tours?duration[gte]=5  ==> duration >=5
+        // //req.query:{ duration: { gte: '5' } }  ❌
+        // // MongolDB Query (Correct) :{ duration: { $gte: 5 } } ➡ so we need to transform first tp second
+        // //Sol replace gte with $gte
+        // let queryString=JSON.stringify(queryObj);
+        // queryString=queryString.replace(/\b(gt|gte|lt|lte)\b/g,match=>`$${match}`);//\b exact without any string around it \g replace all occurrences instead first match only is replaced
+        // // console.log(JSON.parse(queryString))//{ duration: { '$gte': '5' } } ✅
 
-        // Await ==> the query is executed
-        // const tours = await Tour.find(queryObj);
-        // a.Build Query
-        // const query = Tour.find(queryObj);
-        // const tours = await Tour.find().where('duration').equals(5).where('difficulty').equals('easy');//Similar :D
+        // // a.Build Query
+        // let query = Tour.find(JSON.parse(queryString));
 
 
-        // 8.Advanced Filtering
-        // Request:{{baseURL}}/v1/tours?duration[gte]=5  ==> duration >=5
-        //req.query:{ duration: { gte: '5' } }  ❌
-        // MongolDB Query (Correct) :{ duration: { $gte: 5 } } ➡ so we need to transform first tp second
-        //Sol replace gte with $gte
-        let queryString=JSON.stringify(queryObj);
-        queryString=queryString.replace(/\b(gt|gte|lt|lte)\b/g,match=>`$${match}`);//\b exact without any string around it \g replace all occurrences instead first match only is replaced
-        // console.log(JSON.parse(queryString))//{ duration: { '$gte': '5' } } ✅
+        // // 9.Sorting
+        // if(req.query.sort){
+        //     //Query:sort=price
+        //     //Mongoose:[price]
+        //     // query=query.sort(req.query.sort);
 
-        // a.Build Query
-        let query = Tour.find(JSON.parse(queryString));
+        //     //Query:sort=price,ratingsAverage
+        //     //Mongoose:[price,ratingsAverage]
+        //     const sortBy=req.query.sort.split(',').join(' ');
+        //     query=query.sort(sortBy);
+
+        // }
+        // else{
+        //     //Sort by Created At even if he didn't specify the sort
+        //     query=query.sort('-createdAt')
+        // }
+
+        // // 10.Fields Limiting
+        // if(req.query.fields){
+        //     const fields=req.query.fields.split(',').join(' ');
+        //     query=query.select(fields);
+        // }
+        // else{
+        //     //just remove __v
+        //     query=query.select('-__v ')
+        // }
 
 
-        // 9.Sorting
-        if(req.query.sort){
-            //Query:sort=price
-            //Mongoose:[price]
-            // query=query.sort(req.query.sort);
+        // //11.Pagination
+        // const page = req.query.page*1||1;
+        // const limit = req.query.limit*1||100;
+        // //EX: page 1:1-10 page 2:11-20 page 3:21-30  he request 2,10 so skip first 10 documents
+        // const skip=(page-1)*limit
 
-            //Query:sort=price,ratingsAverage
-            //Mongoose:[price,ratingsAerage]
-            const sortBy=req.query.sort.split(',').join(' ');
-            query=query.sort(sortBy);
-            
-        }
-        else{
-            //Sort by Created At even if he didn't specify the sort
-            query=query.sort('-createdAt')
-        }
-
-        // 10.Fields Limiting
-        if(req.query.fields){
-            const fields=req.query.fields.split(',').join(' ');
-            query=query.select(fields);
-        }
-        else{
-            //just remove __v
-            query=query.select('-__v ')
-        }
-
-        //11.Pagination
+        // query=query.skip(skip).limit(limit)
 
 
         // b.Execute Query
-        const tours=await query;
+        const features = new APIFeatures(Tour.find(), req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate()
+        const tours = await features.query;
 
 
         res.status(200).json({
@@ -88,6 +100,14 @@ exports.getAllTours = async (req, res) => {
             message: err
         });
     }
+}
+
+
+exports.aliasTopTours = async (req, res, next) => {
+    req.query.sort = '-ratingsAverage,price';
+    req.query.limit = 5;
+    req.query.fields = 'name,price,ratingsAverage,summary,difficulty'
+    next();
 }
 
 exports.getTour = async (req, res) => {
@@ -176,6 +196,55 @@ exports.deleteTour = async (req, res) => {
 
     } catch (err) {
         res.status(400).json({
+            status: "fail",
+            message: err
+        })
+    }
+}
+
+// 12.Aggregation
+exports.getTourStats = async (req, res) => {
+    try {
+        const stats = await Tour.aggregate([
+            //Array of the aggregation stages
+
+            // a.Match Select fields matching certain conditions
+            {
+                $match: { ratingsAverage: { $gte: 4.5 } }
+            },
+            // b.Grouping
+            {
+                $group: {
+                    // _id:null,//all in 1 document
+                    // _id: '$difficulty',//Group by Difficulty
+                    _id: { $toUpper: '$difficulty' },//Group by Difficulty [Make jus Upper Case 😎]
+                    numTours: { $sum: 1 },//get count of Tours <3
+                    numRatings: { $sum: '$ratingsQuantity' },
+                    avgRating: { $avg: '$ratingsAverage' },
+                    avgPrice: { $avg: '$price' },
+                    minPrice: { $min: '$price' },
+                    maxPrice: { $max: '$price' },
+                }
+            },
+            // Sort Groups :D
+            {
+                $sort: { avgPrice: -1 }
+            },
+            //Exclude easy from the group [new another match :D]
+            // {
+            //     $match:{_id:{$ne:'EASY'}}
+            // }
+        ])
+
+        res.status(200).json({
+            status: "success",
+            data: {
+                stats
+            }
+        })
+    }
+    catch (err) {
+        res.status(404).json({
             status: "fail",
             message: err
         })
