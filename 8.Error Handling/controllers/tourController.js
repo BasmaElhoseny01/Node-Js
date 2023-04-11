@@ -113,7 +113,7 @@ exports.aliasTopTours = async (req, res, next) => {
 
 exports.getTour = catchAsync(async (req, res, next) => {
     // Read Document by ID
-
+    
     // try {
     const tour = await Tour.findById(req.params.id);
 
