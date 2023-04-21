@@ -45,7 +45,12 @@ const userSchema = new mongoose.Schema({
     },
     passwordChangedAt: Date,
     passwordResetToken: String,
-    passwordResetExpires: Date
+    passwordResetExpires: Date,
+    active: {
+        type: Boolean,
+        default: true,
+        select: false
+    }
 })
 
 //Pre save middleWare
@@ -76,6 +81,14 @@ userSchema.pre('save', function (next) {
     this.passwordChangedAt = Date.now() - 1000;
     next()
 
+})
+
+
+//Middle ware to filter collections by active flag
+userSchema.pre('/^find/', function (next) {
+    //This here points to teh current query
+    this.filter({ active: { $ne: false } })
+    next();
 })
 
 //2.Instance Method => available for all documents of a certain collection 
