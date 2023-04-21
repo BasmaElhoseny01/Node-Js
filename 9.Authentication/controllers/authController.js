@@ -16,6 +16,18 @@ const signToken = id => {
 
 }
 
+const createAndSendToken = (user, statusCode, res) => {
+    const token = signToken(user._id)
+    res.status(statusCode).json({
+        status: 'success',
+        token,
+        data: {
+            user
+        }
+    })
+
+}
+
 exports.signup = catchAsync(async (req, res, next) => {
 
     const newUser = await User.create(
@@ -28,17 +40,7 @@ exports.signup = catchAsync(async (req, res, next) => {
         })
 
 
-    //Making new user sign in
-    const token = signToken(newUser._id)
-    //Send the token to the user :D
-
-    res.status(201).json({
-        status: 'success',
-        token,
-        data: {
-            user: newUser
-        }
-    });
+    createAndSendToken(newUser, 201, res)
 });
 
 
@@ -61,11 +63,8 @@ exports.login = catchAsync(async (req, res, next) => {
         return next(new AppError('Incorrect email or password', 401))
     }
 
-    //3.Send token to the client
-    res.status(200).json({
-        status: 'success',
-        token: signToken(user._id)
-    });
+
+    createAndSendToken(user, 200, res)
 });
 
 
@@ -197,14 +196,27 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     //By the pre save we added in the UserModel <3
 
     //4.Log the user in and send JWT
-    const jwt_token = signToken(user._id)
+    createAndSendToken(user, 201, res)
+});
 
 
-    res.status(201).json({
-        status: 'success',
-        token: jwt_token,
-        data: {
-            user
-        }
-    });
+exports.updatePassword = catchAsync(async (req, res, next) => {
+    //1.Get User from the collection
+    //req.user doesn't contain password :( so get it again
+    const user = await User.findById(req.user._id).select("+password")
+
+    //2.If Passed Password is correct
+    const correct = await user.correctPassword(req.body.password, user.password);
+    if (!correct) {
+        return next(new AppError('Incorrect Password!', 401))//401 unauthorized
+    }
+
+
+    //3.Update the password
+    user.password = req.body.newPassword
+    user.passwordConfirm = req.body.newPasswordConfirm
+    await user.save()//Validation is done automatically
+
+    //4.Login and send JWT Token Back
+    createAndSendToken(user, 200, res)
 });

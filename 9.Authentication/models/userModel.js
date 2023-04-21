@@ -77,7 +77,8 @@ userSchema.pre('save', function (next) {
     next()
 
 })
-// //2.Instance Method => available for all documents of a certain collection 
+
+//2.Instance Method => available for all documents of a certain collection 
 userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword)
 };

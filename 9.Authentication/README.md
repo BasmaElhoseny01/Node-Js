@@ -8,7 +8,10 @@
 5. Reset Password Functionality
     - <a href="">forgetPassword()</a>
     - <a href="">resetPassword()</a>
-6. 
+6. <a href="">Update user Password</a>
+7. <a href="">Update user data other than password</a>
+8. <a href="">Delete </a>
+
 
 ### PostMan Hints
 1. Globals Refer to postman
