@@ -29,7 +29,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
     })
 })
 
-
+//7.Update user data other than password
 exports.updateMe = catchAsync(async (req, res, next) => {
     //1.Create Error id the user tried to update password here
     if (req.body.password || req.body.passwordConfirm) {
@@ -54,6 +54,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
 })
 
+//8.Delete Account
 exports.deleteMe = catchAsync(async (req, res, next) => {
     const deletedUser = await User.findByIdAndUpdate(req.user.id, { active: false })
 

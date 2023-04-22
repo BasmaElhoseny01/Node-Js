@@ -36,6 +36,7 @@ class APIFeatures {
     sort() {
         // Sorting
         if (this.queryString.sort) {
+            // console.log(this.queryString.sort)
             //Query:sort=price
             //Mongoose:[price]
             // query=query.sort(req.query.sort);
@@ -79,4 +80,4 @@ class APIFeatures {
 }
 
 
-module.exports=APIFeatures;
+module.exports = APIFeatures;

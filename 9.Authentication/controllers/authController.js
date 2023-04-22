@@ -18,6 +18,24 @@ const signToken = id => {
 
 const createAndSendToken = (user, statusCode, res) => {
     const token = signToken(user._id)
+
+
+    //9.Sending JWT Cookie
+    //Note:Cookie received by a request is then sent automatically with aby request sent to the same server which added the cookie
+
+    const cookieOptions = {
+        expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+        httpOnly: true//The cookie can't be accessed or modified un any way by the browser
+    }
+
+    if (process.env.NODE_ENV === 'production') {
+        cookieOptions.secure = true //Cookie is sent only in secure connection https
+    }
+
+    res.cookie('jwt', token, cookieOptions)
+    //remove password from res
+    user.password = undefined
+
     res.status(statusCode).json({
         status: 'success',
         token,
@@ -28,6 +46,7 @@ const createAndSendToken = (user, statusCode, res) => {
 
 }
 
+//1.2.JWT TOkens signUp()
 exports.signup = catchAsync(async (req, res, next) => {
 
     const newUser = await User.create(
@@ -39,12 +58,11 @@ exports.signup = catchAsync(async (req, res, next) => {
             passwordConfirm: req.body.passwordConfirm
         })
 
-
     createAndSendToken(newUser, 201, res)
 });
 
 
-
+//1.1.JWT TOkens logIn()
 exports.login = catchAsync(async (req, res, next) => {
     const { email, password } = req.body;
 
@@ -199,7 +217,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     createAndSendToken(user, 201, res)
 });
 
-
+//6.Update user Password
 exports.updatePassword = catchAsync(async (req, res, next) => {
     //1.Get User from the collection
     //req.user doesn't contain password :( so get it again
