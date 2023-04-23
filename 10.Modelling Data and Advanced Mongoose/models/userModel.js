@@ -91,7 +91,7 @@ userSchema.pre('/^find/', function (next) {
     next();
 })
 
-//2.Instance Method => available for all documents of a certain collection 
+//Instance Method => available for all documents of a certain collection 
 userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword)
 };
@@ -123,6 +123,7 @@ userSchema.methods.createPasswordResetToken = function () {
     this.passwordResetToken = crypto.createHash('sha256').update(token).digest('hex')//converted in hex
     this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
     // console.log(Date.now())
+    // console.log("herrrrrrrr", this.passwordResetExpires)
     // // this.passwordResetExpires = Date.now()
     // console.log(this.passwordResetExpires > Date.now())
     return token
