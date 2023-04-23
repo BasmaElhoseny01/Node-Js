@@ -72,7 +72,12 @@ app.use(xss())
 // bec:sort becomes an array so use  8 
 // sol:we want to allow duplication  of the duration  
 app.use(hpp({
-  whitelist: ['duration']
+  whitelist: ['duration',
+    'ratingsQuantity',
+    'ratingsAverage',
+    'maxGroupSize',
+    'difficulty',
+    'price']
 }))
 
 
