@@ -9,6 +9,8 @@ const hpp = require('hpp')
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
+const reviewRouter = require('./routes/reviewRoutes');
+
 
 const AppError = require('./utils/appError.js');
 const globalErrorHandler = require('./controllers/errorController')
@@ -104,6 +106,7 @@ app.use((req, res, next) => {
 //Mounting Router (tourRouter) on a route(/api/v1/tours)
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/reviews', reviewRouter);
 
 //Unhandled Routes
 //all =>get post batch ...

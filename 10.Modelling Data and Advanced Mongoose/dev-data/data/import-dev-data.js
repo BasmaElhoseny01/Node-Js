@@ -26,7 +26,7 @@ mongoose.connect(DB, {
 //Read JSON File with the Data
 // Returns the contents of the file named filename. If encoding is specified then this function returns a string.
 // Otherwise it returns a buffer
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8'));
+const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
 
 //Import Data into DB
 const importData = async () => {

@@ -91,7 +91,7 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: "success",//success fail[err in the client] error[err in the server]})
-        results: tours.length,
+        results: tours?.length,
         data: {
             tours
         }
@@ -113,11 +113,17 @@ exports.aliasTopTours = async (req, res, next) => {
 
 exports.getTour = catchAsync(async (req, res, next) => {
     // Read Document by ID
-    
+
+    //3.1. Populate
+    // const tour = await Tour.findById(req.params.id).populate('guides');
+    // const tour = await Tour.findById(req.params.id).populate({
+    //     path: 'guides',
+    //     select: "-__v -passwordChangesAt"
+    // });
     const tour = await Tour.findById(req.params.id);
 
-    if(!tour){
-        return next(new AppError('No tour found with that ID',404))
+    if (!tour) {
+        return next(new AppError('No tour found with that ID', 404))
     }
     res.status(200).json({
         status: "success",//success fail[err in the client] error[err in the server]})
@@ -131,6 +137,8 @@ exports.getTour = catchAsync(async (req, res, next) => {
 exports.createTour = catchAsync(async (req, res, next) => {
     // Creating Document
     const newTour = await Tour.create(req.body);
+
+    console.log("createTour()");
     res.status(201).json({
         status: 'success',
         data: {
@@ -146,8 +154,8 @@ exports.updateTour = catchAsync(async (req, res, next) => {
         runValidators: true//to rerun validators on the updated document
     })
 
-    if(!tour){
-        return next(new AppError('No tour found with that ID',404))
+    if (!tour) {
+        return next(new AppError('No tour found with that ID', 404))
     }
 
     res.status(200).json({
@@ -161,10 +169,10 @@ exports.updateTour = catchAsync(async (req, res, next) => {
 exports.deleteTour = catchAsync(async (req, res, next) => {
     // Delete Documents
 
-    const tour=await Tour.findByIdAndDelete(req.params.id)
-    
-    if(!tour){
-        return next(new AppError('No tour found with that ID',404))
+    const tour = await Tour.findByIdAndDelete(req.params.id)
+
+    if (!tour) {
+        return next(new AppError('No tour found with that ID', 404))
     }
 
     res.status(204).json({

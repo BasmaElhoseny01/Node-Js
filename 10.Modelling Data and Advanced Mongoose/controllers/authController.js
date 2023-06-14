@@ -88,12 +88,15 @@ exports.login = catchAsync(async (req, res, next) => {
 
 //Authentication : verifies the identity of a user or service
 exports.protect = catchAsync(async (req, res, next) => {
+    console.log(req.headers.authorization)
 
     //1.Get Token from the req header [Check if token is sent with the request]
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];//Bearer TOKEN
     }
+
+
 
     if (!token) {
         return next(new AppError("You aren't logged in! Please login in to gain access", 401))

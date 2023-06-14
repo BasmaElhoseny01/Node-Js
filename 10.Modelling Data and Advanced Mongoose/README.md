@@ -1,29 +1,38 @@
-## Authentication
+## Data Modelling
 
+### Data Modelling Concepts
+1. Types of relationships
+    - 1:1
+    - 1:MANY   [1:FEW 1:MANY 1:TON]
+    - MANY:MANY
+2. When to Embed and When to Reference
+
+    | POC | EMBED | REFERENCE |
+    | ------- | -------- | ------- |
+    | RelationShip | 1:FEW  1:MANY | 1:MANY  1:TON  MANY:MANY |
+    | Data Access Pattern | DO NOT CHANGE A LOT | UPDATED A LOT |
+    | Data Closeness |  Data really belong together (user+email) | we frequently need to query both datasets on their own |
+
+3. Types of referencing
+    - Child Referencing
+    - Parent Referencing
+    - Two-Way Referencing
+
+Note: Document size is **16M** that's why in 1:TON we must apply  Referencing
+
+
+### Data Model for our System
+![Alt text](image.png)
+
+    1. Start with the data set entities in our system [Tours Users Locations Reviews Bookings] 
 ### Code Map
-1. JWT TOkens
-    - <a href="">logIn()</a>
-    - <a href="">signUp()</a>
-2. <a href="">Instance Method</a>
-3. Authentication: Logged in  ie. Authentication verifies the identity of a user or service by Routes Protecting <a href="">protect()</a>
-4. Authorization : Has the role to do so ie. Authorization determines their access rights <a href="">restrictTo()</a>
-5. Reset Password Functionality
-    - <a href="">forgetPassword()</a>
-    - <a href="">resetPassword()</a>
-6. <a href="">Update user Password</a>
-7. <a href="">Update user data other than password</a>
-8. <a href="">Delete </a>
-9. <a href="">Sending JWT Cookie</a>
-10. <a href="">Rate limiting</a> ➡ express-rate-limit
-11. <a href="">Setting Security HTTP Headers</a> ➡ helmet
-12. Data Sanitization
-    - <a href="">against NoSQL query Injection</a>
-    - <a href="">against XSS</a>
-13. <a href="">Parameter Pollution</a> 
-    - <a href="">Err 1 Example</a>
-    - <a href="">Err 2 Example</a>
-
-
+1. Geospatial Data
+    - <a href="">GeoJson</a>
+2. <a href="">Tour Modeling: Embedding</a>
+    **We pass in the body of the request the IDs just use middleware to embed the guides data into the Tour Document**
+    <a href="">Implement Pre save middle ware to embed the tours</a>
+3. <a href="">Tour Modeling: Child referencing</a>
+4. <a href="">Populating References</a>
 
 
 ### PostMan Hints

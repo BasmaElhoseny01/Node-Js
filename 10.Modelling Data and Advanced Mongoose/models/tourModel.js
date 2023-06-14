@@ -2,7 +2,10 @@
 
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const validator = require('validator')
+
+
+// const User = require('./userModel')
+// const validator = require('validator')
 
 // Schema
 const tourSchema = new mongoose.Schema({
@@ -82,7 +85,43 @@ const tourSchema = new mongoose.Schema({
     secretTour: {
         type: Boolean,
         default: false
-    }
+    },
+    //1.GeoJson   must have type:{} and coordinates[ latitude ,longitude ] so that it is detected as GeoJson
+    startLocation: {
+        type: {
+            type: String,
+            default: 'Point',
+            enum: ['Point'],
+        },
+        coordinates: [Number],
+
+        //Extra
+        description: String,
+        address: String,
+    },
+    locations: [
+        {
+            type: {
+                type: String,
+                default: 'Point',
+                enum: ['Point'],
+            },
+            coordinates: [Number],
+
+            //Extra
+            description: String,
+            address: String,
+            day: Number,//Day of the tour in which the people will go to this location Ex start location has Day 0
+        }
+    ],
+    // // 2.1. Embedding
+    // guides: Array,
+    // 3.1 Reference
+    guides: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',//User Schema no need to import it is just a string
+
+    }]
 }, {
     toJSON: { virtuals: true },//When we get as Json Make virtuals Appear
     toObject: { virtuals: true }
@@ -113,6 +152,19 @@ tourSchema.pre('save', function (next) {
     next();
 })
 
+
+// //2.2. Embed Guides Data in guides
+// tourSchema.pre('save', async function (next) {
+//     //this ==> Document being saved  [Not the body sent :D]
+
+//     //Get the corresponding user for the guides id passed  
+//     const guidesPromises = this.guides.map(async id => await User.findById(id));
+//     //The above line returns an array of promises we need to convert to their repossess
+
+//     this.guides = await Promise.all(guidesPromises);
+//     next();
+// })
+
 //POST
 tourSchema.post('save', function (doc, next) {
     //doc already saved document
@@ -142,6 +194,17 @@ tourSchema.pre(/^find/, function (next) {
 // })
 //Sol(2) Use Regular Expressions ==> Shown Above 👆 
 
+
+//3.2. Populate Middle ware for guides in Tours
+//Why pre not post when i tried post we got ids not populated so i think we need to populate first
+tourSchema.pre(/^find/, function (docs, next) {
+    this.populate({
+        path: 'guides',
+        select: "-__v -passwordChangeAt"
+    });
+    next();
+})
+
 // Post Query Execution
 tourSchema.post(/^find/, function (docs, next) {
     //this ==> Query
@@ -151,7 +214,7 @@ tourSchema.post(/^find/, function (docs, next) {
 
 
 // Aggregation MiddleWares
-//The Problem is that we fixed that we don'y get a secret tour when calling find
+//The Problem is that we fixed that we don't get a secret tour when calling find
 //But still the secret tour appears @ the tour stats ==> Aggregation 
 tourSchema.pre('aggregate', function (next) {
     //this ???  see the console.log :D
