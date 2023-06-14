@@ -136,6 +136,12 @@ tourSchema.virtual('durationWeeks').get(function () {
     // Don't forget to add the option that theses virtual options appear with the request by setting virtuals to true in the schema definition above
 });
 
+//5. Virtual population for the reviews of the tour instead of storing an array of the reviews' ids on each tour
+tourSchema.virtual('reviews', {
+    ref: 'Review',//Model to reference
+    foreignField: 'tour',//the field  in the model referenced
+    localField: "_id",//field in this model to be mapped to foreignField
+})
 
 // Document Middle Ware
 //Pre Save Hook runs before save() and create()
