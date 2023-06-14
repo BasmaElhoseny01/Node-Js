@@ -197,7 +197,7 @@ tourSchema.pre(/^find/, function (next) {
 
 //3.2. Populate Middle ware for guides in Tours
 //Why pre not post when i tried post we got ids not populated so i think we need to populate first
-tourSchema.pre(/^find/, function (docs, next) {
+tourSchema.pre(/^find/, function (next) {
     this.populate({
         path: 'guides',
         select: "-__v -passwordChangeAt"
