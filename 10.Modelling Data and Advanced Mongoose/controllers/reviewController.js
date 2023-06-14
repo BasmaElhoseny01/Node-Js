@@ -4,7 +4,10 @@ const catchAsync = require('../utils/catchAsync')
 const { getTourStats } = require('./tourController')
 
 exports.getAllReviews = catchAsync(async (req, res, next) => {
-    const reviews = await Review.find().populate('tour');
+    //if tourId is passed just return reviews om this your
+    let filter = {}
+    if (req.params.tourId) filter = { tour: req.params.tourId }
+    const reviews = await Review.find(filter).populate('tour');
 
 
     res.status(200).json({

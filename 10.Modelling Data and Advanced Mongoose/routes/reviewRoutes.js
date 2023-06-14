@@ -2,7 +2,10 @@ const express = require('express')
 
 const reviewController = require('../controllers/reviewController')
 const authController = require('../controllers/authController')
-const router = express.Router()
+
+
+//6.2. we need to merge para,s to be able to access tourId from the nested route tour
+const router = express.Router({ mergeParams: true })
 
 router.route('/')
     .get(reviewController.getAllReviews)
