@@ -1,4 +1,5 @@
-//Here we Focus MiddleWares
+
+const path = require('path')
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit')
@@ -19,6 +20,9 @@ const globalErrorHandler = require('./controllers/errorController')
 //This adds bunch of methods to teh app variable :)
 const app = express();
 
+//1. set Engine
+app.set('view engine', 'pug')
+app.set('views', path.join(__dirname, 'views'));
 
 // Global MiddleWares
 
@@ -104,6 +108,13 @@ app.use((req, res, next) => {
 
 // 2) Routes
 //Mounting Router (tourRouter) on a route(/api/v1/tours)
+app.get('/', (req, res) => {
+  res.status(200).render('base', {
+    tour: "The Forest Hiker",
+    user: "Jonas"
+  })
+}) //pug
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
