@@ -35,6 +35,10 @@ Note: Document size is **16M** that's why in 1:TON we must apply  Referencing
 4. <a href="">Populating References</a>
 5. Parent referencing the parent doesn't know its children so we need<a href="">virtual Population </a>
 6. <a href="">Nested Routes</a>
+7. <a href="">Factory Handlers</a>
+8. <a href="">/me endpoint </a>
+
+
 ### PostMan Hints
 1. Globals Refer to postman
 2. Environment Lect 133

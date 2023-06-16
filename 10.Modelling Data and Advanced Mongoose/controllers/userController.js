@@ -3,6 +3,7 @@ const User = require('../models/userModel');
 
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const factory = require('./handlerFactory')
 
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};
@@ -17,17 +18,14 @@ const filterObj = (obj, ...allowedFields) => {
     return newObj
 }
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-    const users = await User.find();
+//8. getme
+exports.getMe = (req, res, next) => {
+    //similar to user.getOne except that user.getOne need id to be passed at the parameter list so this middle ware puts the id to the params list then call user.getOne in the stack next fun
+    req.params.id = req.user.id;
 
-    res.status(200).json({
-        status: "success",//success fail[err in the client] error[err in the server]
-        results: users.length,
-        data: {
-            users
-        }
-    })
-})
+    next();
+}
+
 
 //Update user data other than password
 exports.updateMe = catchAsync(async (req, res, next) => {
@@ -65,30 +63,18 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 
 });
 
-exports.createUser = (req, res) => {
-    res.status(500).json({
-        status: "error",
-        message: "This route is not yet defined"
-    })
-}
+exports.getAllUsers = factory.getAll(User);
+exports.createUser = factory.createOne(User);
+exports.getUser = factory.getOne(User);
+exports.updateUser = factory.updateOne(User); //Don't Update passwords by this
+exports.deleteUser = factory.deleteOne(User);
 
-exports.getUser = (req, res) => {
-    res.status(500).json({
-        status: "error",
-        message: "This route is not yet defined"
-    })
-}
 
-exports.updateUser = (req, res) => {
-    res.status(500).json({
-        status: "error",
-        message: "This route is not yet defined"
-    })
-}
 
-exports.deleteUser = (req, res) => {
-    res.status(500).json({
-        status: "error",
-        message: "This route is not yet defined"
-    })
-}
+//Unimplemented Router example
+// exports.deleteUser = (req, res) => {
+//     res.status(500).json({
+//         status: "error",
+//         message: "This route is not yet defined"
+//     })
+// }

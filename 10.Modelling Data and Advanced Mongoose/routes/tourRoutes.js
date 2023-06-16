@@ -14,7 +14,6 @@ const {
 const authController = require('./../controllers/authController');
 
 const router = express.Router();
-
 //import reviews router
 const reviewRouter = require('./reviewRoutes')
 
@@ -36,19 +35,32 @@ router.use('/:tourId/reviews', reviewRouter) //same id as we mount routes in app
 router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 
 router.route('/tour-stats').get(getTourStats);
-router.route('/monthly-plan/:year').get(getMonthlyPlan);
+router.route('/monthly-plan/:year')
+  .get(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide', 'guide'),
+    getMonthlyPlan);
 
 router
   .route('/')
-  .get(authController.protect, getAllTours)//We need to protect tours models such that they aren't get if the user isn't logged in[protect middle ware]
-  //MiddleWare Chaining :D
-  .post(createTour);
+  .get(getAllTours)//we need any one to get our tours
+  .post(
+    authController.protect,//We need to protect tours models such that they aren't get if the user isn't logged in[protect middle ware]
+    //MiddleWare Chaining :D
+    authController.restrictTo('admin', 'lead-guide'),
+    createTour);
 
 router
   .route('/:id')
   .get(getTour)
-  .patch(updateTour)
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    updateTour)
   //Authentication -Authorization -Controller to delete function
-  .delete(authController.protect, authController.restrictTo('admin', 'lead-guide'), deleteTour);//This can't be done by any user even logged in[Authentication] only admins can do so Authorization
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    deleteTour);//This can't be done by any user even logged in[Authentication] only admins can do so Authorization
 
 module.exports = router;

@@ -75,7 +75,7 @@ exports.login = catchAsync(async (req, res, next) => {
     //Note:using + bec the password field is by default not selected
     const user = await User.findOne({ email }).select('+password');//password field is added to the response :D
 
-    const correct = await user.correctPassword(password, user.password);
+    const correct = await user?.correctPassword(password, user.password);
 
     if (!user || !correct) {
         return next(new AppError('Incorrect email or password', 401))
