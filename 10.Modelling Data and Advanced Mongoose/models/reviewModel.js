@@ -34,7 +34,8 @@ const reviewSchema = new mongoose.Schema({
 
 )
 
-
+//11. Prevent duplicates of reviews -> use indexing :D
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true })
 reviewSchema.pre(/^find/, function (next) {
     this.populate({
         path: "user",
@@ -83,12 +84,12 @@ reviewSchema.post('save', function () {
 reviewSchema.pre(/^findOneAnd/, async function (next) {
     //here we don't have access to the tourId just the review Id
     //this -> query
-    this.r = await this.findOne(); //save result in this(document) r to be able to access it in the post middle ware
+    this.r = await this.findOne(); //save result in this query r to be able to access it in the post middle ware
     console.log(this.r);
     next();
 })
 
-reviewSchema.post(/^findOneAnd/,function () {
+reviewSchema.post(/^findOneAnd/, function () {
     //here after we have save the new review call back the calAverage using the tourId saved from the pre middleware
     this.r.constructor.calAverageRatings(this.r.tour); //this.r is the document
 })

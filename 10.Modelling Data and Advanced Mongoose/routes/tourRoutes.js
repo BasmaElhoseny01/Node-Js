@@ -9,7 +9,9 @@ const {
   updateTour,
   deleteTour,
   getTourStats,
-  getMonthlyPlan
+  getMonthlyPlan,
+  getToursWithin,
+  getDistances
 } = require('../controllers/tourController');
 const authController = require('./../controllers/authController');
 
@@ -41,6 +43,16 @@ router.route('/monthly-plan/:year')
     authController.restrictTo('admin', 'lead-guide', 'guide'),
     getMonthlyPlan);
 
+//12.Geographical
+router.route('/tours-within/:distance/center/:latlng/unit/:unit')
+  .get(getToursWithin)
+
+//like the above but get the distance between each tour start location and the latlng passed
+router.route('/distances/:latlng/unit/:unit')
+.get(getDistances)
+
+
+// /tours-within/233/center/-40,45/unit/mi
 router
   .route('/')
   .get(getAllTours)//we need any one to get our tours

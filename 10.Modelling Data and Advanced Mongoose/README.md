@@ -39,8 +39,8 @@ Note: Document size is **16M** that's why in 1:TON we must apply  Referencing
 8. <a href="">/me endpoint </a>
 9. <a href="">Indexes</a>
 10. <a href="">Static Methods to be called on Schema not on documents like instance methods , cal avg rating of tour</a>
-
-
+11. <a href="">Prevent duplicates of reviews -> use indexing</a>
+12. <a href="">Geographical</a>
 ### PostMan Hints
 1. Globals Refer to postman
 2. Environment Lect 133

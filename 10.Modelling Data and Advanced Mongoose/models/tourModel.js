@@ -47,6 +47,7 @@ const tourSchema = new mongoose.Schema({
         // Not required bec its isn't the user's responsibility to cal these values they are calculated automatically from the reviews we got on the tour
         min: [1, 'Rating must be above 1.0'],
         max: [5, 'Rating must be below 5.0'],
+        set: val => Math.round(val * 10) / 10//call back run every time value is set for ratingsAverage
     },
     price: {
         type: Number,
@@ -133,6 +134,7 @@ const tourSchema = new mongoose.Schema({
 
 // 9.1. Compound index  {{URL}}/v1/tours?price[lt]=1000&ratingsAverage[gte]=4.7
 tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ startLocation: '2dsphere' });
 
 
 // Virtual Properties
@@ -229,15 +231,15 @@ tourSchema.post(/^find/, function (docs, next) {
 // Aggregation MiddleWares
 //The Problem is that we fixed that we don't get a secret tour when calling find
 //But still the secret tour appears @ the tour stats ==> Aggregation 
-tourSchema.pre('aggregate', function (next) {
-    //this ???  see the console.log :D
-    console.log(this.pipeline())//this==> Aggregation Object here we use  pipeline() to see pipeline of the aggregation 
-    //So all we need to do is to add another stage of match at the beginning of the pipeline to match non secret tours
-    this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+// tourSchema.pre('aggregate', function (next) {
+//     //this ???  see the console.log :D
+//     console.log(this.pipeline())//this==> Aggregation Object here we use  pipeline() to see pipeline of the aggregation 
+//     //So all we need to do is to add another stage of match at the beginning of the pipeline to match non secret tours
+//     this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
 
-    //shift ==> add to the end of the pipeline
-    next();
-})
+//     //shift ==> add to the end of the pipeline
+//     next();
+// })
 
 // Creating Models = Like Classes that we use to create documents 
 //Syntax:(Name of model, Schema)
