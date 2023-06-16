@@ -37,6 +37,8 @@ Note: Document size is **16M** that's why in 1:TON we must apply  Referencing
 6. <a href="">Nested Routes</a>
 7. <a href="">Factory Handlers</a>
 8. <a href="">/me endpoint </a>
+9. <a href="">Indexes</a>
+10. <a href="">Static Methods to be called on Schema not on documents like instance methods , cal avg rating of tour</a>
 
 
 ### PostMan Hints

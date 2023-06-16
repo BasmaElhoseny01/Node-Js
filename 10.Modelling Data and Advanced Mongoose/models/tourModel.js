@@ -128,6 +128,13 @@ const tourSchema = new mongoose.Schema({
 })
 
 
+//9. Indexes  {{URL}}/v1/tours?price[lt]=1000
+// tourSchema.index({ price: 1 });//1 asc -1 des
+
+// 9.1. Compound index  {{URL}}/v1/tours?price[lt]=1000&ratingsAverage[gte]=4.7
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+
+
 // Virtual Properties
 tourSchema.virtual('durationWeeks').get(function () {
     //used regular function to be able to access this key word referring to the document

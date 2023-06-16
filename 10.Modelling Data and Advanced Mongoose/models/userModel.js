@@ -86,7 +86,7 @@ userSchema.pre('save', function (next) {
 
 //Middle ware to filter collections by active flag
 userSchema.pre('/^find/', function (next) {
-    //This here points to teh current query
+    //This here points to the current query
     this.filter({ active: { $ne: false } })
     next();
 })
