@@ -11,6 +11,7 @@ const hpp = require('hpp')
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const viewRouter = require('./routes/viewRoutes');
 
 
 const AppError = require('./utils/appError.js');
@@ -108,13 +109,7 @@ app.use((req, res, next) => {
 
 // 2) Routes
 //Mounting Router (tourRouter) on a route(/api/v1/tours)
-app.get('/', (req, res) => {
-  res.status(200).render('base', {
-    tour: "The Forest Hiker",
-    user: "Jonas"
-  })
-}) //pug
-
+app.use('/', viewRouter)
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
