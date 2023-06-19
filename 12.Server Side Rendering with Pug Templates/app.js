@@ -12,7 +12,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
-
+const cookieParser = require('cookie-parser')
 
 const AppError = require('./utils/appError.js');
 const globalErrorHandler = require('./controllers/errorController')
@@ -30,7 +30,20 @@ app.set('views', path.join(__dirname, 'views'));
 // Setting Security HTTP Headers ➡ helmet
 //It just adds headers for the security that we can modify read the documentation :D
 //Remember: app.use(function_name) not function call helmet() returns a function name
-app.use(helmet())
+
+// configure helmet to solve the problem of CROSS origin for mapbox
+app.use(helmet({
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: {
+    allowOrigins: ['*']
+  },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ['*'],
+      scriptSrc: ["* data: 'unsafe-eval' 'unsafe-inline' blob:"]
+    }
+  }
+}))
 
 
 //Development Logging
@@ -55,6 +68,7 @@ app.use('/api', limiter)
 app.use(express.json(
   { limit: '10kb' }//max body is 10KiloBytes
 ));
+app.use(cookieParser());
 
 
 //Data Sanitization against NoSQL query Injection
@@ -99,6 +113,8 @@ app.use(express.static(`${__dirname}/public`));
 app.use((req, res, next) => {
   console.log('Hello From Middle Ware');
   //pass the request to the next middleware
+  //use bodyParser to be able to access cookies with each request
+  console.log(req.cookies)
   next();
 });
 

@@ -1,50 +1,44 @@
-/* eslint-disable */
 export const displayMap = locations => {
-  mapboxgl.accessToken =
-    'pk.eyJ1Ijoiam9uYXNzY2htZWR0bWFubiIsImEiOiJjam54ZmM5N3gwNjAzM3dtZDNxYTVlMnd2In0.ytpI7V7w7cyT1Kq5rT9Z1A';
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYmFzbWEtZWxob3NlbnkwMSIsImEiOiJjbGowaXlpNXIwb2ljM3F0ODdtbG9td296In0.e9GFKUoTPe675ExGdhmwbg';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/basma-elhoseny01/clj1td4pn01ee01pfcwmxhe48',
+        // center:[30.8025,26.8206],
+        // zoom:3
+        scrollZoom: false
+    });
+    //make map fit so that all locations are shown
+    const bounds = new mapboxgl.LngLatBounds();
 
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/jonasschmedtmann/cjvi9q8jd04mi1cpgmg7ev3dy',
-    scrollZoom: false
-    // center: [-118.113491, 34.111745],
-    // zoom: 10,
-    // interactive: false
-  });
+    locations.forEach(loc => {
+        //Add marker
+        const el = document.createElement('div')
+        el.className = 'marker'
 
-  const bounds = new mapboxgl.LngLatBounds();
+        //Add Marker
+        new mapboxgl.Marker({
+            element: el,
+            anchor: "bottom"//button be located @ the GPS location it can be the center
+        }).setLngLat(loc.coordinates).addTo(map);
 
-  locations.forEach(loc => {
-    // Create marker
-    const el = document.createElement('div');
-    el.className = 'marker';
+        //Add popup
+        new mapboxgl.Popup({
+            offset: 30
+        }).setLngLat(loc.coordinates).setHTML(`<p>Day ${loc.day}: ${loc.description}</p>`)
+            .addTo(map)
 
-    // Add marker
-    new mapboxgl.Marker({
-      element: el,
-      anchor: 'bottom'
+
+        //Extend map bounds to include the current location
+        bounds.extend(loc.coordinates)
+    });
+
+
+    map.fitBounds(bounds, {
+        padding: {
+            top: 200,
+            bottom: 150,
+            left: 100,
+            right: 100
+        }
     })
-      .setLngLat(loc.coordinates)
-      .addTo(map);
-
-    // Add popup
-    new mapboxgl.Popup({
-      offset: 30
-    })
-      .setLngLat(loc.coordinates)
-      .setHTML(`<p>Day ${loc.day}: ${loc.description}</p>`)
-      .addTo(map);
-
-    // Extend map bounds to include current location
-    bounds.extend(loc.coordinates);
-  });
-
-  map.fitBounds(bounds, {
-    padding: {
-      top: 200,
-      bottom: 150,
-      left: 100,
-      right: 100
-    }
-  });
 };

@@ -61,6 +61,13 @@ exports.signup = catchAsync(async (req, res, next) => {
     createAndSendToken(newUser, 201, res)
 });
 
+exports.logout = (req, res) => {
+    res.cookie('jwt', 'loggedout', {
+        expires: new Date(Date.now() + 10 * 1000),
+        httpOnly: true
+    });
+    res.status(200).json({ status: 'success' })
+}
 
 //JWT TOkens logIn()
 exports.login = catchAsync(async (req, res, next) => {
@@ -95,6 +102,9 @@ exports.protect = catchAsync(async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];//Bearer TOKEN
     }
+    else if (req.cookies.jwt) {
+        token = req.cookies.jwt
+    }
 
 
 
@@ -124,6 +134,43 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.user = currentUser;//Just to be useful in the future add the user to the req
     next();
 });
+
+
+
+// Only for rendered pages
+exports.isLoggedIn = async (req, res, next) => {
+    if (req.cookies.jwt) {
+        try {
+
+            //2.Verify this token
+            //Token,JWT_Secret in order to generate the test signature,call back function but we will here use promise just for syntax matching of the project that uses async await
+            //We need to promise from the .verify 
+            //Return is the decoded data
+            const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET)
+
+
+            //3.Check if user still exists (Handle case that user has been deleted but Token still exists and unexpired but the id it holds is for a user that doesn't exist)
+            const currentUser = await User.findById(decoded.id)
+            if (!currentUser) {
+                return next()
+            }
+
+            //4. User has changed the password then the token is invalid (Handle someone has stole the password so he is able to generate tokens using this password we need to prevent this)
+            if (currentUser.changedPasswordAfter(decoded.iat)) {
+                return next()
+            }
+
+            //There is a logged in user
+            //we need to add this user to pug to access it
+            res.locals.user = currentUser;
+        }
+        catch (error) {
+            //no logged in user
+            return next();
+        }
+    }
+    next();
+};
 
 //Authorization : determines their access rights
 //Note:We can't pass arguments to middleware function so how to solve this problem

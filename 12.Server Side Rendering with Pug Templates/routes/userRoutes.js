@@ -14,6 +14,7 @@ const router = express.Router();
 // Auth
 router.post('/signup', authController.signup)
 router.post('/login', authController.login)
+router.get('/logout', authController.logout)
 router.post('/forgetPassword', authController.forgetPassword) //don't need to be signed in :D
 router.patch('/resetPassword/:token', authController.resetPassword)
 
