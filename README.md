@@ -17,22 +17,6 @@ Taken from https://github.com/itsyuimorii/TripSpark-Node.js-Express-MongoDB-and-
 
 Master Node by building a real-world RESTful API and web app (with authentication, Node.js security, payments & more)
 
-<div align="center">
-
-| Section   | Topic                                         | Problem Sets                                                                                                                                               |
-| --------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Section 0 | RestfulAPI                                    | [code](https://github.com/itsyuimorii/Node.js--Express--MongoDB---More--The-Complete-Bootcamp-2023/tree/01_restfulapi)                                     |
-| Section 1 | Mongodb & mongoose                            | [code](https://github.com/itsyuimorii/Node.js--Express--MongoDB---More--The-Complete-Bootcamp-2023/tree/02_mongodb)                                        |
-| Section 2 | Error handling                                | [code](https://github.com/itsyuimorii/Node.js--Express--MongoDB---More--The-Complete-Bootcamp-2023/tree/03_error_handling)                                 |
-| Section 3 | Authentication_and_security                   | [code](https://github.com/itsyuimorii/Node.js--Express--MongoDB---More--The-Complete-Bootcamp-2023/tree/04_authentication_and_security)                    |
-| Section 4 | Modelling_data_and_advanced_mongoose          | [code](https://github.com/itsyuimorii/Node.js--Express--MongoDB---More--The-Complete-Bootcamp-2023/tree/05_modelling_data_and_advanced_mongoose)           |
-| Section 5 | Server_Side_Rendering-with_Pug_Templates      | [code](https://github.com/itsyuimorii/Node.js--Express--MongoDB---More--The-Complete-Bootcamp-2023/tree/06_Server_Side_Rendering-with_Pug_Templates)       |
-| Section 6 | Advanced_Features_Payments_Email_File_Uploads | [code](https://github.com/itsyuimorii/Node.js--Express--MongoDB---More--The-Complete-Bootcamp-2023/tree/07_Advanced_Features_-Payments_Email_File-Uploads) |
-| Section 7 | Setting_Up_Git_and_Deployment                 | [code](https://github.com/itsyuimorii/Node.js--Express--MongoDB---More--The-Complete-Bootcamp-2023/tree/08_Setting_Up_Git_and_Deployment)                  |
-
-<div align="left">
-
-
 ## Sections to Be revised in the course
 4 - 13 - 14
 ## ☻ Starting a Node.js Project
