@@ -12,7 +12,7 @@ Taken from https://github.com/itsyuimorii/TripSpark-Node.js-Express-MongoDB-and-
 <div align=center>
     <a href="https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/">Course Link</a> |
     <a href="">Final Project</a> |
-    <a href="">Certification</a> |
+<!--     <a href="">Certification</a> | -->
 </div>
 
 Master Node by building a real-world RESTful API and web app (with authentication, Node.js security, payments & more)
